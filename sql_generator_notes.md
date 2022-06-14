@@ -25,6 +25,10 @@ or regular expression which are available on the Windows platform. That said, it
 also keeps it very simple so that anyone with even a rudimentary knowledge of Excel VBA should be able to follow along.
 The code should also run on either Mac Excel or Windows Excel without issue.
 
+Here is a screenshot of the input data:
+
+[![Screenshot of input data](./imgs/input_data.png)]
+
 ## To use the module
 
 - Download the _modSqlGenerator.bas_ file.
