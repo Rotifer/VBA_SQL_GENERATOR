@@ -4,12 +4,12 @@
 
 I have been using Excel for longer than I care to remember. I have used it long enough to appreciate its merits
 and to be aware of its deficiencies and dangers. However, the choice to use it or not is not always up to me but is dictated
-by other with whom I interact who use it extensively to collect, analyse and store data. Across many business
+by others with whom I interact who use it extensively to collect, analyse and store data. Across many business
 areas, it has become almost a _lingua franca_ for data transfer so even those who hate it often have to deal with it
-and its many quirks and annoyances. I frequently need to get the data quickly into a relational database of some sort.
+and its many quirks and annoyances. I frequently need to get the sheet data quickly into a relational database of some sort.
 In the past, that was Oracle but these days it is SQLite or PostgreSQL. I also use a Mac so I am more limited when it comes
-to drives for connecting Excel to these databases. I could use Python or R to extract the data from an Excel sheet and load
-it to a relational database. However, I often just need to quickly look at the data, determine the column types, make some edits
+to drivers for connecting Excel to these databases. Of course, I could use Python or R to extract the data from an Excel sheet and load
+it to a relational database. However, I often just need to quickly look at the data, determine the column data types, make some edits
 or make some data change requests to the sheet provider. To achieve this, I have written some VBA functions that can be called
 as user-defined functions in the spreadsheet itself. These functions perform the following:
 
@@ -28,10 +28,10 @@ The code should also run on either Mac Excel or Windows Excel without issue.
 ## To use the module
 
 - Download the _modSqlGenerator.bas_ file.
-- I run the code from my __Personal.xlsb__ workbook to ensure it is available at all times in Excel
+- I run the code from my __Personal.xlsb__ workbook to ensure it is available at all times in Excel.
 - You can do the same but you may want to load the module into a macro-enabled ( _xlsm_ ) workbook initially
 for testing and to reassure yourself that the code is safe. You should treat all downloaded VBA code  with suspicion 
-to ensure that it is not doing anything dangerous either inadvertently or because of malicious intent by the code writer.
+to ensure that it is not doing anything dangerous either inadvertently or because of malicious intent on the part of the code writer.
 
 You should now have access to the functions needed to generate the SQL.
  
@@ -39,24 +39,27 @@ You should now have access to the functions needed to generate the SQL.
 ## Data
 
 I have taken the _emp_ table from the old Oracle training database known as _scott_. It has the
-main data types that we will use. See the Excel file named emp.xlsx_
+main data types that we will use. See the Excel file named _emp.xlsx_ in this repo.
 
 ## SQL dialect
 
 SQL is a common standard implemented by a vast number of relational and non-relational databases
-as well as by various data analysis software. Although there is an _SQL standard_, to the best of 
+as well as by various data analysis software platforms. Although there is an _SQL standard_, to the best of 
 my knowledge, no system implements the standard in its entirety and each 'dialect' of SQL has its own
-non-standard extensions. I have chosen to generate the PostgreSQL standard in these examples.
-Most of the generated code will work in SQLite which is more forgiving when it comes to column types but the
-_to_date_ would need to be changed tl allow it to use the generated code. A few more tweaks for the column
+non-standard extensions. I have chosen to generate the PostgreSQL standard in these examples because it is the one I 
+mostly use these days; it is also free and is possibly the RDBMS that most closely adheres to the standard.
+Most of the generated code will also work in SQLite which is more forgiving when it comes to column types but the
+_to_date_ would need to be changed to allow it to use the generated code. A few more tweaks for the column
 types would be needed for it to work in Oracle while SQL Server and MySQL would likely need more extensive 
 changes. Since the code is available here, it should be relatively easy to tweak it to work with your preferred RDBMS.
 
 ## Steps
 
-- Download the spreadsheet to follow along
-- Insert a column under the column names to create a blank row
-- In cell A2 of this row enter the formula: `=PERSONAL.XLSB!COLUMN_DATATYPE(A3:A16)`
+- Download the spreadsheet to follow along.
+- Insert a column under the column names to create a blank row.
+- The following steps assume the code is in _Personal.xlsb_, if it is in a macro-enabled Excel file of your choosing
+and the data is also in this workbook, then drop the __Personal.xlsb!__ from the function calls given below.
+- In cell A2 of this row enter the formula: `=PERSONAL.XLSB!COLUMN_DATATYPE(A3:A16)`. 
 - Drag it to the right using the lower right black cross, 
 you should now have the data types inferred for each column in the second row.
 - The _CREATE TABLE_ DDL statement is created in cell I2 by entering the formula:
@@ -66,7 +69,7 @@ cell I3: `=PERSONAL.XLSB!INSERT_VALUES_SQL("emp", A$1:H$1,A$2:H$2,A16:H16)`
 - Click the black arrow on the lower right of cell I3 to copy down the formula.
 - Note the dollar signs are used to create absolute row references for the second and third arguments to the
 function call. These are crucial to ensure that each _INSERT_ SQL statement refers to the same 
-column names and column types.
+column names and column types for each data row.
 - To test the code, I  removed the double quotes enclosing the _CREATE TABLE_ statement that were inserted by Excel to preserve the embedded new lines and then
 pasted it into the pgAdmin _Query Tool_ window and executed it without error
 
@@ -110,6 +113,6 @@ The code I present here is basic and does not deal at all with embedded charts o
 I have tested it for numeric types (double and integer), text, dates and logical. For logical columns, it assigns the column type __BOOLEAN__ which is supported
 by PostgreSQL but not by all RDBMs.
 
-## Warding/Disclaimer
+## Warning/Disclaimer
 
-As always, treat all downloaded code with caution. I strongly recommend that you read and test the code given here before using it in earnest
+As always, treat all downloaded code with caution. I strongly recommend that you read and test the code given here before using it in earnest.
