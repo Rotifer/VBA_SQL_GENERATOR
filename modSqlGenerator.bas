@@ -4,18 +4,18 @@ Option Explicit
 ' Name: modSqlGenerator
 ' Objective: Provide a set of functions for building SQL from a table of data in Excel sheets
 ' Contains functions to generate CREATE TABLE DDL and INSERT INTO SQL statements for that table.
-' The output SQL strings are in PostgreSQL format but they should mostly work with SQLite too (except for the callto the 'to_date()' function
-' Functions written in all uppercase and meant to be usedin the worksheets themselves asuser-defined functions while functions using capitalised
+' The output SQL strings are in PostgreSQL format but they should mostly work with SQLite too (except for the call to the 'to_date()' function
+' Functions written in all uppercase and meant to be used in the worksheets themselves as user-defined functions while functions using capitalised
 '  camel casing are helper or utility functions.
 ' To use: Import this module intoyour personal.xlsb workbook.
 ' See the README for more on usage and output
-' Note: This code was developed on the Mac using Mac Excel so it relies on core VBA and cannot use the many Component Object Model (COM) features that
-'  greatly with modern VBA. Because these enhancements are not available, I have to fall back on VBA's feture-poor containers arrays and collections instead of the
+' Note: This code was developed on the Mac using Mac Excel so it relies on core VBA and cannot use the many Component Object Model (COM) features.
+' Because these enhancements are not available, I have to fall back on VBA's feature-poor containers arrays and collections instead of the
 '  using Dictionary
 
 '##################################################################################################################################
 ' Determine the data type of a given single cell range.
-' The return values are meant to becompatible with PostgreSQL
+' The return values are meant to be compatible with PostgreSQL
 Function CellType(cell As Range) As String
     If VBA.IsEmpty(cell) Then
         CellType = "NULL"
@@ -37,7 +37,7 @@ Function CellType(cell As Range) As String
         End If
     End If
 End Function
-' Not being used currently becauseit does distinguish NUMERIC and INTEGER
+' Not being used currently because it does distinguish NUMERIC and INTEGER
 ' Source: https://analystcave.com/vba-reference-functions/vba-conversion-functions/vba-vartype-function/
 Function CellValueType(cell As Range) As String
     Select Case VBA.VarType(cell.Value)
