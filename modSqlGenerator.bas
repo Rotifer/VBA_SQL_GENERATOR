@@ -37,7 +37,7 @@ Function CellType(cell As Range) As String
         End If
     End If
 End Function
-' Not being used currently because it does distinguish NUMERIC and INTEGER
+' Not being used currently because it does NOT distinguish NUMERIC and INTEGER
 ' Source: https://analystcave.com/vba-reference-functions/vba-conversion-functions/vba-vartype-function/
 Function CellValueType(cell As Range) As String
     Select Case VBA.VarType(cell.Value)
